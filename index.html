@@ -39,8 +39,16 @@ input[type=text]:focus{border-color:#aaa;}
 /* ── CHIP GROUPS ── */
 .chip-group{display:flex;flex-wrap:wrap;gap:4px;}
 .chip{font-size:11px;padding:3px 9px;border-radius:999px;border:0.5px solid #ccc;background:#fff;color:#1a1a1a;cursor:pointer;user-select:none;transition:background .12s,color .12s;}
-.chip.on{background:#534AB7;color:#fff;border-color:#534AB7;font-weight:500;}
+.chip.on{background:#1a1a1a;border-color:#1a1a1a;color:#fff;font-weight:700;}
 .chip-break{width:100%;height:0;}
+.chip.c-orange{background:#FFF0E6;border-color:#F0A875;color:#1a1a1a;}
+.chip.c-orange.on{background:#E8711A;border-color:#E8711A;color:#fff;font-weight:700;}
+.chip.c-blue{background:#E8F3FF;border-color:#7DB8F0;color:#1a1a1a;}
+.chip.c-blue.on{background:#1A6FCC;border-color:#1A6FCC;color:#fff;font-weight:700;}
+.chip.c-green{background:#E8F7EE;border-color:#72C98A;color:#1a1a1a;}
+.chip.c-green.on{background:#1E8A48;border-color:#1E8A48;color:#fff;font-weight:700;}
+.chip.c-purple{background:#F0EEFF;border-color:#A08AE8;color:#1a1a1a;}
+.chip.c-purple.on{background:#5A3EC8;border-color:#5A3EC8;color:#fff;font-weight:700;}
 
 /* ── PRODUCT BOX ── */
 .prod-box{background:#f5f5f3;border-radius:8px;padding:6px 10px;}
@@ -81,7 +89,7 @@ const PRODUCTS={
   "学校":{梁:"Dokaビーム+プロップ/プロップ+OKサポート(受け)",床:"テーブル",壁:"Top50",柱:"Framax",クイックアップ:"プロップ",片押壁:"DSW"},
   "庁舎":{梁:"Dokaビーム+プロップ/プロップ+OKサポート(受け)",床:"テーブル",壁:"Top50",柱:"Framax",クイックアップ:"プロップ",片押壁:"DSW"},
   "水処理":{壁:"Top50/Framax",柱:"Framax",PCa:"Top50"},
-  "エネ電":{壁:"Top50/Framax",柱:"Framax",PCa:"Top50"},
+  "エネルギー":{壁:"Top50/Framax",柱:"Framax",PCa:"Top50"},
   "橋梁":{柱:"Top50/SKE50plus+Top50",橋脚:"SKE100/SKE50plus+Top50/Top50/Xclimb+Top50",ケーソン:"Top50",インバート:"Top50","C-BOX":"Top50"},
   "道路":{柱:"Top50/SKE50plus+Top50",橋脚:"SKE100/SKE50plus+Top50/Top50/Xclimb+Top50",ケーソン:"Top50",インバート:"Top50","C-BOX":"Top50"},
   "鉄道":{柱:"Top50/SKE50plus+Top50",橋脚:"SKE100/SKE50plus+Top50/Top50/Xclimb+Top50",ケーソン:"Top50",インバート:"Top50","C-BOX":"Top50"},
@@ -89,10 +97,11 @@ const PRODUCTS={
   "立坑":{壁:"Top50/SKE50plus+メタルR型大型型枠"},
 };
 
-const YOTO_LIST=["集合住宅","商業施設","事務所","ホテル","介護施設","物流倉庫","工場","市場","研究所","病院","学校","庁舎","水処理","エネ電","橋梁","道路","鉄道","ダム","立坑"];
-const YOTO_BREAKS=new Set(["物流倉庫","研究所","水処理","橋梁"]);
+const YOTO_LIST=["商業施設","事務所","集合住宅","ホテル","介護施設","物流倉庫","工場","市場","水処理","エネルギー","研究所","病院","学校","庁舎","橋梁","道路","鉄道","ダム","立坑"];
+const YOTO_BREAKS=new Set(["物流倉庫","研究所","橋梁"]);
+const YOTO_COLOR={"商業施設":"c-orange","事務所":"c-orange","集合住宅":"c-orange","ホテル":"c-orange","介護施設":"c-orange","物流倉庫":"c-blue","工場":"c-blue","市場":"c-blue","水処理":"c-blue","エネルギー":"c-blue","研究所":"c-green","病院":"c-green","学校":"c-green","庁舎":"c-green","橋梁":"c-purple","道路":"c-purple","鉄道":"c-purple","ダム":"c-purple","立坑":"c-purple"};
 const KOZO_LIST=["RC","SRC","S","PCa"];
-const PHASE_LIST=["業者選定段階","入札段階","計画段階"];
+const PHASE_LIST=["引合段階","特命・交渉中","入札中","落札・内示済","成約済み","着工準備・施工計画中"];
 
 let tabs=[];
 let activeId=null;
@@ -179,7 +188,8 @@ function buildPanel(data){
   const cg=document.createElement('div');cg.className='chip-group';
   YOTO_LIST.forEach(v=>{
     if(YOTO_BREAKS.has(v)){const br=document.createElement('div');br.className='chip-break';cg.append(br);}
-    const c=document.createElement('span');c.className='chip'+(data.yoto.includes(v)?' on':'');c.textContent=v;
+    const col=YOTO_COLOR[v]||'';
+    const c=document.createElement('span');c.className='chip'+(col?' '+col:'')+(data.yoto.includes(v)?' on':'');c.textContent=v;
     c.addEventListener('click',()=>{
       if(data.yoto.includes(v)){data.yoto=data.yoto.filter(x=>x!==v);c.classList.remove('on');}
       else{data.yoto.push(v);c.classList.add('on');}
@@ -222,8 +232,11 @@ function buildPanel(data){
     const c=document.createElement('span');c.className='chip'+(data.phase.includes(v)?' on':'');c.textContent=v;
     c.style.borderRadius='6px';
     c.addEventListener('click',()=>{
+      const wasOn=data.phase.includes(v);
       cg4.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
-      data.phase=[v];c.classList.add('on');save();
+      if(wasOn){data.phase=[];}
+      else{data.phase=[v];c.classList.add('on');}
+      save();
     });
     cg4.append(c);
   });
