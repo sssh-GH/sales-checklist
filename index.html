@@ -30,9 +30,17 @@ input[type=text]:focus{border-color:#aaa;}
 .send-btn:hover{background:#f5f5f3;}
 .notice{font-size:12px;color:#999;margin-top:6px;text-align:center;}
 .mb{margin-bottom:1.25rem;}
+
+.form-stack{display:flex;flex-direction:column;gap:10px;margin-bottom:1.25rem;}
+.stack-row{display:flex;align-items:center;gap:14px;}
+.stack-label{font-size:14px;color:#1a1a1a;min-width:88px;flex-shrink:0;}
+.stack-row input[type=text]{flex:1;}
+
 @media(max-width:480px){
   .row{flex-wrap:wrap;}
   .row-label{min-width:60px;}
+  .stack-row{flex-wrap:wrap;gap:8px;}
+  .stack-label{min-width:60px;}
 }
 </style>
 </head>
@@ -42,16 +50,19 @@ input[type=text]:focus{border-color:#aaa;}
 <hr>
 
 <p class="sec-label">基本情報</p>
-<div class="row">
-  <span class="row-label">訪問先</span>
-  <input type="text" id="f_visitor" placeholder="会社名" style="flex:2;">
-</div>
-  <span class="row-label">ご担当者</span>
-  <input type="text" id="f_person" placeholder="氏名" style="flex:1;">
-</div>
-<div class="row mb">
-  <span class="row-label">PJ名</span>
-  <input type="text" id="f_project" placeholder="プロジェクト名">
+<div class="form-stack">
+  <div class="stack-row">
+    <span class="stack-label">訪問先</span>
+    <input type="text" id="f_visitor" placeholder="会社名">
+  </div>
+  <div class="stack-row">
+    <span class="stack-label">ご担当者</span>
+    <input type="text" id="f_person" placeholder="氏名">
+  </div>
+  <div class="stack-row">
+    <span class="stack-label">PJ名</span>
+    <input type="text" id="f_project" placeholder="プロジェクト名">
+  </div>
 </div>
 
 <hr>
@@ -82,7 +93,6 @@ input[type=text]:focus{border-color:#aaa;}
   <span class="chip" data-val="立坑">立坑</span>
 </div>
 
-<!-- Moved product box directly under 用途 -->
 <div class="prod-box">
   <p class="prod-box-title">推奨製品</p>
   <p class="prod-empty" id="prod-empty">用途を選択すると製品が表示されます</p>
@@ -92,16 +102,19 @@ input[type=text]:focus{border-color:#aaa;}
 <hr>
 
 <p class="sec-label">工程・規模</p>
-<div class="row">
-  <span class="row-label">全体工期</span>
-  <input type="text" id="f_period" placeholder="例：2025/04〜2027/03" style="flex:2;">
-</div>
-  <span class="row-label">規模㎡</span>
-  <input type="text" id="f_scale" placeholder="延床面積など" style="flex:1;">
-</div>
-<div class="row mb">
-  <span class="row-label">場所</span>
-  <input type="text" id="f_place" placeholder="都道府県・市区町村">
+<div class="form-stack">
+  <div class="stack-row">
+    <span class="stack-label">全体工期</span>
+    <input type="text" id="f_period" placeholder="例：2025/04〜2027/03">
+  </div>
+  <div class="stack-row">
+    <span class="stack-label">規模㎡</span>
+    <input type="text" id="f_scale" placeholder="延床面積など">
+  </div>
+  <div class="stack-row">
+    <span class="stack-label">場所</span>
+    <input type="text" id="f_place" placeholder="都道府県・市区町村">
+  </div>
 </div>
 
 <p class="sec-label">フェーズ</p>
@@ -196,7 +209,14 @@ function sendMail(){
   const yoto=[...sel.yoto].join('、')||'(未選択)';
   const phase=[...sel.phase].join('、')||'(未選択)';
   const merged={};
-  sel.yoto.forEach(y=>{const p=PRODUCTS[y];if(!p)return;Object.entries(p).forEach(([k,v])=>{if(!merged[k])merged[k]=new Set();v.split('/').forEach(s=>merged[k].add(s.trim()));});});
+  sel.yoto.forEach(y=>{
+    const p=PRODUCTS[y];
+    if(!p)return;
+    Object.entries(p).forEach(([k,v])=>{
+      if(!merged[k])merged[k]=new Set();
+      v.split('/').forEach(s=>merged[k].add(s.trim()));
+    });
+  });
   const prodLines=Object.entries(merged).map(([k,vs])=>`  ${k}: ${[...vs].join(' / ')}`).join('\n')||'  (用途未選択)';
   const body=`【営業訪問チェックリスト】
 
