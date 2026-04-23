@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>営業訪問チェックリスト</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1a1a1a;background:#fff;padding:1.5rem 1rem 3rem;max-width:680px;margin:0 auto;}
+h1{font-size:20px;font-weight:500;margin-bottom:0.75rem;}
+hr{border:none;border-top:1px solid #e5e5e5;margin:0 0 1.25rem;}
+.sec-label{font-size:13px;color:#666;margin-bottom:0.75rem;}
+.row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.row-label{font-size:14px;color:#1a1a1a;min-width:72px;flex-shrink:0;}
+input[type=text]{flex:1;font-size:14px;padding:7px 10px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#1a1a1a;outline:none;}
+input[type=text]:focus{border-color:#aaa;}
+.inline-label{font-size:14px;color:#1a1a1a;white-space:nowrap;flex-shrink:0;}
+.chip-group{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.chip{font-size:13px;padding:5px 13px;border-radius:999px;border:1px solid #ccc;background:#fff;color:#1a1a1a;cursor:pointer;user-select:none;transition:background .15s,color .15s,border-color .15s;}
+.chip.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a;font-weight:500;}
+.chip-break{width:100%;height:0;}
+.prod-box{background:#f5f5f3;border:1px solid #e5e5e5;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem;}
+.prod-box-title{font-size:14px;font-weight:500;margin-bottom:0.5rem;}
+.prod-empty{font-size:13px;color:#999;font-style:italic;}
+.prod-table{width:100%;border-collapse:collapse;font-size:13px;}
+.prod-table td{padding:3px 0;vertical-align:top;}
+.prod-table td:first-child{color:#666;min-width:100px;font-size:12px;}
+.prod-table td:last-child{font-weight:500;}
+.send-btn{width:100%;padding:12px;font-size:15px;font-weight:400;background:#fff;color:#1a1a1a;border:1px solid #ccc;border-radius:12px;cursor:pointer;transition:background .15s;}
+.send-btn:hover{background:#f5f5f3;}
+.notice{font-size:12px;color:#999;margin-top:6px;text-align:center;}
+.mb{margin-bottom:1.25rem;}
+@media(max-width:480px){
+  .row{flex-wrap:wrap;}
+  .row-label{min-width:60px;}
+}
+</style>
+</head>
+<body>
+
+<h1>営業訪問チェックリスト</h1>
+<hr>
+
+<p class="sec-label">基本情報</p>
+<div class="row">
+  <span class="row-label">訪問先</span>
+  <input type="text" id="f_visitor" placeholder="会社名" style="flex:2;">
+  <span class="inline-label" style="padding:0 4px;">ご担当者</span>
+  <input type="text" id="f_person" placeholder="氏名" style="flex:1;">
+</div>
+<div class="row mb">
+  <span class="row-label">PJ名</span>
+  <input type="text" id="f_project" placeholder="プロジェクト名">
+</div>
+
+<hr>
+
+<p class="sec-label">用途（複数選択可）</p>
+<div class="chip-group mb" id="yoto-chips">
+  <span class="chip" data-val="商業施設">商業施設</span>
+  <span class="chip" data-val="事務所">事務所</span>
+  <span class="chip" data-val="集合住宅">集合住宅</span>
+  <span class="chip" data-val="ホテル">ホテル</span>
+  <span class="chip" data-val="介護施設">介護施設</span>
+  <div class="chip-break"></div>
+  <span class="chip" data-val="物流倉庫">物流倉庫</span>
+  <span class="chip" data-val="工場">工場</span>
+  <span class="chip" data-val="市場">市場</span>
+  <span class="chip" data-val="水処理">水処理</span>
+  <span class="chip" data-val="エネ電">エネ電</span>
+  <div class="chip-break"></div>
+  <span class="chip" data-val="研究所">研究所</span>
+  <span class="chip" data-val="病院">病院</span>
+  <span class="chip" data-val="学校">学校</span>
+  <span class="chip" data-val="庁舎">庁舎</span>
+  <div class="chip-break"></div>
+  <span class="chip" data-val="橋梁">橋梁</span>
+  <span class="chip" data-val="道路">道路</span>
+  <span class="chip" data-val="鉄道">鉄道</span>
+  <span class="chip" data-val="ダム">ダム</span>
+  <span class="chip" data-val="立坑">立坑</span>
+</div>
+
+<hr>
+
+<p class="sec-label">工程・規模</p>
+<div class="row">
+  <span class="row-label">全体工期</span>
+  <input type="text" id="f_period" placeholder="例：2025/04〜2027/03" style="flex:2;">
+  <span class="inline-label" style="padding:0 4px;">規模㎡</span>
+  <input type="text" id="f_scale" placeholder="延床面積など" style="flex:1;">
+</div>
+<div class="row mb">
+  <span class="row-label">場所</span>
+  <input type="text" id="f_place" placeholder="都道府県・市区町村">
+</div>
+
+<p class="sec-label">フェーズ</p>
+<div class="chip-group mb" id="phase-chips">
+  <span class="chip" data-val="業者選定段階">業者選定段階</span>
+  <span class="chip" data-val="入札段階">入札段階</span>
+  <span class="chip" data-val="計画段階">計画段階</span>
+</div>
+
+<hr>
+
+<p class="sec-label">関係者</p>
+<div class="row"><span class="row-label">ゼネコン</span><input type="text" id="f_general" placeholder="会社名"></div>
+<div class="row"><span class="row-label">設計会社</span><input type="text" id="f_design" placeholder="会社名"></div>
+<div class="row"><span class="row-label">施工会社</span><input type="text" id="f_const" placeholder="会社名"></div>
+<div class="row mb"><span class="row-label">その他業者</span><input type="text" id="f_other" placeholder="会社名・氏名"></div>
+
+<hr>
+
+<div class="prod-box">
+  <p class="prod-box-title">推奨製品</p>
+  <p class="prod-empty" id="prod-empty">用途を選択すると製品が表示されます</p>
+  <table class="prod-table" id="prod-table" style="display:none;"></table>
+</div>
+
+<button class="send-btn" onclick="sendMail()">abschicken</button>
+<p class="notice" id="mail-notice"></p>
+
+<script>
+const PRODUCTS = {
+  "集合住宅":{梁:"Top50/テーブル/SKE50plus/Dokaビーム",床:"テーブル/Dokaビーム",壁:"Top50/Framax",柱:"Framax",スラブ:"テーブル",PCa:"12k(受け)/ストラット(建入)",クイックアップ:"プロップ",片押壁:"DSW",センターコア:"SKE50plus+Top50/Xclimb"},
+  "ホテル":{梁:"Top50/テーブル/SKE50plus/Dokaビーム",床:"テーブル/Dokaビーム",壁:"Top50/Framax",柱:"Framax",スラブ:"テーブル",PCa:"12k(受け)/ストラット(建入)",クイックアップ:"プロップ",片押壁:"DSW",センターコア:"SKE50plus+Top50/Xclimb"},
+  "介護施設":{梁:"Top50/テーブル/SKE50plus/Dokaビーム",床:"テーブル/Dokaビーム",壁:"Top50/Framax",柱:"Framax",スラブ:"テーブル",PCa:"12k(受け)/ストラット(建入)",クイックアップ:"プロップ",片押壁:"DSW",センターコア:"SKE50plus+Top50/Xclimb"},
+  "商業施設":{梁:"Dokaビーム+プロップ",柱:"Top50",片押壁:"DSW",センターコア:"SKE50plus+Top50"},
+  "事務所":{梁:"Dokaビーム+プロップ",柱:"Top50",片押壁:"DSW",センターコア:"SKE50plus+Top50"},
+  "物流倉庫":{梁:"Dokaビーム+プロップ",床:"テーブル",壁:"Framax",柱:"Top50/Framax",スラブ:"テーブル+12K"},
+  "工場":{梁:"Dokaビーム+プロップ",床:"テーブル",壁:"Framax",柱:"Top50/Framax",スラブ:"テーブル+12K"},
+  "市場":{梁:"Dokaビーム+プロップ",床:"テーブル",壁:"Framax",柱:"Top50/Framax",スラブ:"テーブル+12K"},
+  "研究所":{梁:"Dokaビーム+プロップ/プロップ+OKサポート(受け)",床:"テーブル",壁:"Top50",柱:"Framax",クイックアップ:"プロップ",片押壁:"DSW"},
+  "病院":{梁:"Dokaビーム+プロップ/プロップ+OKサポート(受け)",床:"テーブル",壁:"Top50",柱:"Framax",クイックアップ:"プロップ",片押壁:"DSW"},
+  "学校":{梁:"Dokaビーム+プロップ/プロップ+OKサポート(受け)",床:"テーブル",壁:"Top50",柱:"Framax",クイックアップ:"プロップ",片押壁:"DSW"},
+  "庁舎":{梁:"Dokaビーム+プロップ/プロップ+OKサポート(受け)",床:"テーブル",壁:"Top50",柱:"Framax",クイックアップ:"プロップ",片押壁:"DSW"},
+  "水処理":{壁:"Top50/Framax",柱:"Framax",PCa:"Top50"},
+  "エネ電":{壁:"Top50/Framax",柱:"Framax",PCa:"Top50"},
+  "橋梁":{柱:"Top50/SKE50plus+Top50",橋脚:"SKE100/SKE50plus+Top50/Top50/Xclimb+Top50",ケーソン:"Top50",インバート:"Top50","C-BOX":"Top50"},
+  "道路":{柱:"Top50/SKE50plus+Top50",橋脚:"SKE100/SKE50plus+Top50/Top50/Xclimb+Top50",ケーソン:"Top50",インバート:"Top50","C-BOX":"Top50"},
+  "鉄道":{柱:"Top50/SKE50plus+Top50",橋脚:"SKE100/SKE50plus+Top50/Top50/Xclimb+Top50",ケーソン:"Top50",インバート:"Top50","C-BOX":"Top50"},
+  "ダム":{堤体:"SKE50plus"},
+  "立坑":{壁:"Top50/SKE50plus+メタルR型大型型枠"},
+};
+
+const sel={yoto:new Set(),phase:new Set()};
+
+function setupChips(id,key){
+  document.getElementById(id).querySelectorAll('.chip').forEach(c=>{
+    c.addEventListener('click',()=>{
+      const v=c.dataset.val;
+      if(sel[key].has(v)){sel[key].delete(v);c.classList.remove('on');}
+      else{sel[key].add(v);c.classList.add('on');}
+      if(key==='yoto')updateProducts();
+    });
+  });
+}
+setupChips('yoto-chips','yoto');
+setupChips('phase-chips','phase');
+
+function updateProducts(){
+  const merged={};
+  sel.yoto.forEach(y=>{
+    const p=PRODUCTS[y];if(!p)return;
+    Object.entries(p).forEach(([k,v])=>{
+      if(!merged[k])merged[k]=new Set();
+      v.split('/').forEach(s=>merged[k].add(s.trim()));
+    });
+  });
+  const tbl=document.getElementById('prod-table');
+  const emp=document.getElementById('prod-empty');
+  if(!Object.keys(merged).length){tbl.style.display='none';emp.style.display='';return;}
+  emp.style.display='none';tbl.style.display='';
+  tbl.innerHTML=Object.entries(merged).map(([k,vs])=>
+    `<tr><td>${k}</td><td>${[...vs].join(' / ')}</td></tr>`
+  ).join('');
+}
+
+function val(id){return document.getElementById(id).value.trim();}
+
+function getSubject(){
+  const d=new Date();
+  const base=`${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+  const key='vl_'+base;
+  let idx=0;try{idx=parseInt(sessionStorage.getItem(key)||'0');}catch(e){}
+  idx++;try{sessionStorage.setItem(key,String(idx));}catch(e){}
+  return base+String.fromCharCode(96+idx);
+}
+
+function sendMail(){
+  const subject=getSubject();
+  const yoto=[...sel.yoto].join('、')||'(未選択)';
+  const phase=[...sel.phase].join('、')||'(未選択)';
+  const merged={};
+  sel.yoto.forEach(y=>{const p=PRODUCTS[y];if(!p)return;Object.entries(p).forEach(([k,v])=>{if(!merged[k])merged[k]=new Set();v.split('/').forEach(s=>merged[k].add(s.trim()));});});
+  const prodLines=Object.entries(merged).map(([k,vs])=>`  ${k}: ${[...vs].join(' / ')}`).join('\n')||'  (用途未選択)';
+  const body=`【営業訪問チェックリスト】
+
+■ 基本情報
+訪問先：${val('f_visitor')}
+ご担当者：${val('f_person')}
+PJ名：${val('f_project')}
+
+■ 用途：${yoto}
+
+■ 推奨製品
+${prodLines}
+
+■ 工程・規模
+全体工期：${val('f_period')}
+規模：${val('f_scale')} ㎡
+場所：${val('f_place')}
+
+■ フェーズ：${phase}
+
+■ 関係者
+ゼネコン：${val('f_general')}
+設計会社：${val('f_design')}
+施工会社：${val('f_const')}
+その他業者：${val('f_other')}
+`;
+  window.location.href=`mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  document.getElementById('mail-notice').textContent='件名「'+subject+'」でメールアプリが開きます';
+}
+</script>
+</body>
+</html>
