@@ -45,7 +45,7 @@ input[type=text]:focus{border-color:#aaa;}
 <div class="row">
   <span class="row-label">訪問先</span>
   <input type="text" id="f_visitor" placeholder="会社名" style="flex:2;">
-  <span class="inline-label" style="padding:0 4px;">ご担当者</span>
+<span class="row-label">ご担当者</span>
   <input type="text" id="f_person" placeholder="氏名" style="flex:1;">
 </div>
 <div class="row mb">
@@ -67,7 +67,7 @@ input[type=text]:focus{border-color:#aaa;}
   <span class="chip" data-val="工場">工場</span>
   <span class="chip" data-val="市場">市場</span>
   <span class="chip" data-val="水処理">水処理</span>
-  <span class="chip" data-val="エネ電">エネ電</span>
+  <span class="chip" data-val="エネルギー">エネルギー</span>
   <div class="chip-break"></div>
   <span class="chip" data-val="研究所">研究所</span>
   <span class="chip" data-val="病院">病院</span>
@@ -79,6 +79,13 @@ input[type=text]:focus{border-color:#aaa;}
   <span class="chip" data-val="鉄道">鉄道</span>
   <span class="chip" data-val="ダム">ダム</span>
   <span class="chip" data-val="立坑">立坑</span>
+</div>
+
+<!-- Moved product box directly under 用途 -->
+<div class="prod-box">
+  <p class="prod-box-title">推奨製品</p>
+  <p class="prod-empty" id="prod-empty">用途を選択すると製品が表示されます</p>
+  <table class="prod-table" id="prod-table" style="display:none;"></table>
 </div>
 
 <hr>
@@ -111,12 +118,6 @@ input[type=text]:focus{border-color:#aaa;}
 <div class="row mb"><span class="row-label">その他業者</span><input type="text" id="f_other" placeholder="会社名・氏名"></div>
 
 <hr>
-
-<div class="prod-box">
-  <p class="prod-box-title">推奨製品</p>
-  <p class="prod-empty" id="prod-empty">用途を選択すると製品が表示されます</p>
-  <table class="prod-table" id="prod-table" style="display:none;"></table>
-</div>
 
 <button class="send-btn" onclick="sendMail()">abschicken</button>
 <p class="notice" id="mail-notice"></p>
