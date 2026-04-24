@@ -264,8 +264,8 @@ function buildPanel(data){
     data.yoto.forEach(y=>{const p=PRODUCTS[y];if(!p)return;Object.entries(p).forEach(([k,v])=>{if(!merged[k])merged[k]=new Set();v.split('/').forEach(s=>merged[k].add(s.trim()));});});
     const prodLines=Object.entries(merged).map(([k,vs])=>`  ${k}: ${[...vs].join(' / ')}`).join('\n')||'  (用途未選択)';
     const body=`【営業訪問チェックリスト】\n\n■ 基本情報\n訪問先：${data.visitor}\nご担当者：${data.person}\nPJ名：${data.project}\n\n■ 用途：${yoto}\n\n■ 推奨製品\n${prodLines}\n\n■ 構造：${kozo}\n\n■ 工程・規模\n全体工期：${data.period}\n場所：${data.place}\n規模：${data.scale} ㎡\n\n■ フェーズ：${phase}\n\n■ 関係者\nゼネコン：${data.general}\n設計会社：${data.design}\n施工会社：${data.const_}\nその他業者：${data.other}`;
-    window.open(`https://mail.google.com/mail/?view=cm&su=${encodeURIComponent(data.name)}&body=${encodeURIComponent(body)}`,'_blank');
-    notice.textContent='件名「'+data.name+'」でGmailが開きます';
+    window.location.href=`mailto:?subject=${encodeURIComponent(data.name)}&body=${encodeURIComponent(body)}`;
+    notice.textContent='件名「'+data.name+'」でメールアプリが開きます';
   });
 
   div.append(card1,yotoRow,twoCol,card5,card6,btn,notice);
